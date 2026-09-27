@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentExchange | Dashboard</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .sidebar { background: #0f172a; min-height: 100vh; color: white; padding: 24px; }
+        .stat-card { background: white; border-radius: 20px; border: 1px solid #e2e8f0; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .form-box { background: white; border-radius: 20px; border: 1px solid #e2e8f0; padding: 28px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <a href="index.html" class="text-white text-decoration-none fs-4 fw-bold d-block mb-4">
+                    <i class="bi bi-arrow-repeat text-primary"></i> RentExchange
+                </a>
+                <ul class="nav flex-column gap-2">
+                    <li class="nav-item"><a href="index.html" class="nav-link text-white-50"><i class="bi bi-house me-2"></i> Home</a></li>
+                    <li class="nav-item"><a href="listings.html" class="nav-link text-white-50"><i class="bi bi-grid me-2"></i> Browse Rentals</a></li>
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link text-white active fw-bold bg-primary rounded-pill px-3"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a></li>
+                </ul>
+            </div>
+
+        
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <div class="stat-card border-start border-primary border-4">
+                            <span class="text-muted small fw-bold">ACTIVE RENTALS</span>
+                            <h2 class="fw-extrabold text-primary my-1" id="stat-active">3 Items</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card border-start border-success border-4">
+                            <span class="text-muted small fw-bold">TOTAL EARNINGS</span>
+                            <h2 class="fw-extrabold text-success my-1">₹18,500</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card border-start border-warning border-4">
+                            <span class="text-muted small fw-bold">TOTAL BOOKINGS</span>
+                            <h2 class="fw-extrabold text-warning my-1">12 Orders</h2>
+                        </div>
+                    </div>
+                </div>
+
+               
+                <div class="form-box">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-plus-circle text-primary me-2"></i> Add New Item for Rent</h5>
+                    <form onsubmit="addNewRentalItem(event)">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label font-semibold">Item Title</label>
+                                <input type="text" id="addItemTitle" class="form-control" placeholder="e.g. GoPro Hero 11" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label font-semibold">Daily Rate (₹)</label>
+                                <input type="number" id="addItemRate" class="form-control" placeholder="800" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label font-semibold">Deposit (₹)</label>
+                                <input type="number" id="addItemDeposit" class="form-control" placeholder="3000" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label font-semibold">Category</label>
+                                <select id="addItemCat" class="form-select">
+                                    <option>Electronics</option>
+                                    <option>Tools</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-success w-100 fw-semibold rounded-pill">Post Item</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function addNewRentalItem(e) {
+            e.preventDefault();
+            const title = document.getElementById('addItemTitle').value;
+            const rate = parseInt(document.getElementById('addItemRate').value);
+            const deposit = parseInt(document.getElementById('addItemDeposit').value);
+            const category = document.getElementById('addItemCat').value;
+
+            let items = JSON.parse(localStorage.getItem('rental_items')) || [];
+            items.push({
+                id: Date.now(),
+                title,
+                category,
+                rate,
+                deposit,
+                rating: 5.0,
+                img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500"
+            });
+
+            localStorage.setItem('rental_items', JSON.stringify(items));
+            alert("New Item Posted Successfully!");
+            window.location.href = 'listings.html';
+        }
+    </script>
+</body>
+</html>
